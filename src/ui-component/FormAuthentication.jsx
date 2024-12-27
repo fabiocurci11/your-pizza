@@ -1,44 +1,70 @@
 import React, { useState, useRef } from 'react';
 import Button from './Button';
 import Input from './Input';
+import { useNavigate } from "react-router-dom";
+import { loginUser } from "../service/authenticationService";
 
 const FormAuthentication = () => {
 
-    // Referenze per i campi del form
+    const navigate = useNavigate();
     const emailRef = useRef();
     const passwordRef = useRef();
-
-    // Stato per gli errori
     const [error, setError] = useState("");
 
-    // Funzione per gestire il submit del form
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
 
         const email = emailRef.current.value;
         const password = passwordRef.current.value;
 
-        // Validazione semplice
+        const user = { email, password };
+
+        // Validazione
         if (!email || !password) {
             setError("All fields are required.");
             return;
         }
-
         setError("");
 
-        // Simula una chiamata API (sostituisci con la tua logica)
-        console.log("Form data submitted:", { email, password });
-        alert("Form submitted successfully!");
+        try {
+            // Chiamata al backend con loginService
+            const response = await loginUser(user);
+            console.log(response)
+
+            // Controlla se la risposta è ok (status 200)
+            if (response.status === 200) {
+                const result = await response.json();  // Converte la risposta in JSON
+                console.log("Result:", result);
+
+                // Se login ha successo, naviga alla rotta /loginOK
+                if (result.success) {
+                    navigate("/loginOK");
+                } else {
+                    setError(`Errore: ${result.message}`);
+                }
+            } else {
+                // Se lo status non è 200, gestisci l'errore
+                console.log("Se lo status non è 200, gestisci l'errore")
+                const errorResult = await response.json();
+                setError(`Errore: ${errorResult.message}`);
+
+            }
+        } catch (error) {
+            // Gestisci eventuali errori di rete o altri errori
+            console.error("Errore:", error);
+            setError(error.message)
+        }
     };
+
 
     return (
         <div className="w-full max-w-sm mx-auto overflow-hidden bg-white rounded-lg shadow-md dark:bg-gray-800">
             <div className="px-6 py-4">
                 <div className="flex justify-center mx-auto">
                     <img
-                        className="w-auto h-7 sm:h-8"
-                        src="https://merakiui.com/images/logo.svg"
-                        alt="Logo"
+                        className="w-auto h-16 sm:h-"
+                        src="src/assets/your-pizza-logo.png" 
+                        alt="Logo" 
                     />
                 </div>
                 <h3 className="mt-3 text-xl font-medium text-center text-gray-600 dark:text-gray-200">

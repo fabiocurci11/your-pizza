@@ -1,17 +1,20 @@
 import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
 import './App.css'
 import FormAuthentication from './ui-component/FormAuthentication'
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 function App() {
-  
+
 
   return (
     <>
-    <h1 className='text-3xl font-bold underline'>Hello</h1>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/loginOK" element={<h1>Login ok</h1>} />
+          <Route path="/login" element={<FormAuthentication />} />
+        </Routes>
+      </BrowserRouter>
 
-    <FormAuthentication/>
     </>
   )
 }
