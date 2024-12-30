@@ -1,7 +1,8 @@
 import { useState } from 'react'
 import './App.css'
-import FormAuthentication from './ui-component/FormAuthentication'
+import FormAuthentication from './components/FormAuthentication'
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import Home from './components/Home';
 
 function App() {
 
@@ -10,7 +11,7 @@ function App() {
     <>
       <BrowserRouter>
         <Routes>
-          <Route path="/loginOK" element={<h1>Login ok</h1>} />
+          <Route path="/home" element={<Home/>} />
           <Route path="/login" element={<FormAuthentication />} />
         </Routes>
       </BrowserRouter>

@@ -1,6 +1,6 @@
 import React, { useState, useRef } from 'react';
-import Button from './Button';
-import Input from './Input';
+import Button from '../ui-component/Button';
+import Input from '../ui-component/Input';
 import { useNavigate } from "react-router-dom";
 import { loginUser } from "../service/authenticationService";
 
@@ -38,7 +38,7 @@ const FormAuthentication = () => {
 
                 // Se login ha successo, naviga alla rotta /loginOK
                 if (result.success) {
-                    navigate("/loginOK");
+                    navigate("/home");
                 } else {
                     setError(`Errore: ${result.message}`);
                 }
